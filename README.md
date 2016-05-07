@@ -1,2 +1,2 @@
 # cofbot
-counter of bottler
+counter of bottler MVP
