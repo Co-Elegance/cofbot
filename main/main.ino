@@ -4,7 +4,7 @@ LiquidCrystal lcd(7, 6, 5, 4, 3, 2); // (RS, E, DB4, DB5, DB6, DB7)
 //c - constants, v - global variables, t - local variables, p - function patameters
 // BT - Bottle Layer
 
-const byte cVers = 7;
+const byte cVers = 9;
 byte cNum0 = 20; //число периодов несущей 38кГц в посылаемом пакете
 byte cImpulse0 = 9;  // длительность полупериода
 byte cNum1 = 20;
@@ -13,7 +13,7 @@ byte cNum2 = 20;
 byte cImpulse2 = 10;
 const byte cDelay = 55;
 const byte cExistEnough = 155;
-const byte cCheckOutPeriod = 33;
+const byte cCheckOutPeriod = 28;
 const byte cExists = 2;
 const byte cWas = 1;
 const byte cNone = 0;
@@ -104,12 +104,12 @@ boolean maintainBL(byte pBL, byte pSensor, byte pLED, byte pNum, byte pImpulse) 
 void bottProcessed(byte pBL) {
   if (pBL != cFake) {vProcessed[pBL]++;}
   vPegasStatus = cVolumeDetermination;
-  lcd.setCursor(0, 0);
-  lcd.print("            ");
+  //lcd.setCursor(0, 0);
+  //lcd.print("            ");
   lcd.setCursor(13, 0);
   lcd.print(vProcessed[c0L] + vProcessed[c1L] * 2 + vProcessed[c2L] * 4);
-  lcd.setCursor(0, 1);
-  lcd.print("             ");
+  //lcd.setCursor(0, 1);
+  //lcd.print("             ");
 
   for (int i = 0; i <= 2; i++) {
     resetBottLayer(i);
@@ -118,7 +118,7 @@ void bottProcessed(byte pBL) {
 
 void resetBottLayer(byte pLayer) {
   vBLExists[pLayer] = false;
-  lcd.setCursor(pLayer * 4 +2, 0);
+  lcd.setCursor(pLayer * 4, 0);
   lcd.print(vProcessed[pLayer]);
   vBLExisting[pLayer] = 0;
   vBLAbsenting[pLayer] = 0;
@@ -126,26 +126,26 @@ void resetBottLayer(byte pLayer) {
 
 void changeCounters() {
 
-  lcd.setCursor(vInspectingBL * 4, 0);
-  lcd.print("  ");
-  lcd.setCursor(vInspectingBL * 4, 1);
-  lcd.print("     ");
+  //lcd.setCursor(vInspectingBL * 4, 0);
+  //lcd.print("  ");
+  //lcd.setCursor(vInspectingBL * 4, 1);
+  //lcd.print("     ");
   
   if (vBLExists[vInspectingBL]) {
     if (vBLAbsenting[vInspectingBL] > 0) {
       vBLAbsenting[vInspectingBL]--;
       }
     vBLExisting[vInspectingBL]++;
-    lcd.setCursor(vInspectingBL * 4, 1);
+    //lcd.setCursor(vInspectingBL * 4, 1);
     //lcd.print("\xFF");
-    lcd.print(vBLExisting[vInspectingBL]);
+    //lcd.print(vBLExisting[vInspectingBL]);
     
   } else {
     if (vBLExisting[vInspectingBL] > 0) {
       vBLAbsenting[vInspectingBL]++;
       vBLExisting[vInspectingBL]--;
-      lcd.setCursor(vInspectingBL * 4, 0);
-      lcd.print(vBLAbsenting[vInspectingBL]);
+      //lcd.setCursor(vInspectingBL * 4, 0);
+      //lcd.print(vBLAbsenting[vInspectingBL]);
     } 
   }
 }
