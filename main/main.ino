@@ -102,23 +102,29 @@ boolean maintainBL(byte pBL, byte pSensor, byte pLED, byte pNum, byte pImpulse) 
 }
 
 void bottProcessed(byte pBL) {
-  if (pBL != cFake) {vProcessed[pBL]++;}
+  lcd.setCursor(0, 0);
+  lcd.print("            ");  
+  if (pBL != cFake) {
+    vProcessed[pBL]++;
+    lcd.setCursor(pBL * 4, 0);
+    lcd.print("+");
+    }
   vPegasStatus = cVolumeDetermination;
-  //lcd.setCursor(0, 0);
-  //lcd.print("            ");
+
   lcd.setCursor(13, 0);
   lcd.print(vProcessed[c0L] + vProcessed[c1L] * 2 + vProcessed[c2L] * 4);
   //lcd.setCursor(0, 1);
   //lcd.print("             ");
 
   for (int i = 0; i <= 2; i++) {
-    resetBottLayer(i);
+    resetBL(i);
   }
 }
 
-void resetBottLayer(byte pLayer) {
+void resetBL(byte pLayer) {
   vBLExists[pLayer] = false;
-  lcd.setCursor(pLayer * 4, 0);
+  lcd.setCursor(pLayer * 4+1, 0);
+  //lcd.print(" ");
   lcd.print(vProcessed[pLayer]);
   vBLExisting[pLayer] = 0;
   vBLAbsenting[pLayer] = 0;
@@ -128,22 +134,24 @@ void changeCounters() {
 
   //lcd.setCursor(vInspectingBL * 4, 0);
   //lcd.print("  ");
-  //lcd.setCursor(vInspectingBL * 4, 1);
+  lcd.setCursor(vInspectingBL * 4, 1);
   //lcd.print("     ");
   
   if (vBLExists[vInspectingBL]) {
+    lcd.print("\xFF");
     if (vBLAbsenting[vInspectingBL] > 0) {
       vBLAbsenting[vInspectingBL]--;
       }
     vBLExisting[vInspectingBL]++;
     //lcd.setCursor(vInspectingBL * 4, 1);
-    //lcd.print("\xFF");
     //lcd.print(vBLExisting[vInspectingBL]);
     
   } else {
+    lcd.print(" ");
     if (vBLExisting[vInspectingBL] > 0) {
       vBLAbsenting[vInspectingBL]++;
       vBLExisting[vInspectingBL]--;
+      //lcd.print("\xFF");
       //lcd.setCursor(vInspectingBL * 4, 0);
       //lcd.print(vBLAbsenting[vInspectingBL]);
     } 
